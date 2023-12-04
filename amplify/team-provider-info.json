@@ -10,6 +10,17 @@
       "StackName": "amplify-amplifyec126d7cf13f4-staging-161430",
       "StackId": "arn:aws:cloudformation:us-east-1:681773937819:stack/amplify-amplifyec126d7cf13f4-staging-161430/34c7f5c0-92c0-11ee-8419-0eb84f80c29b",
       "AmplifyAppId": "d3sb3xkkgq81f7"
+    },
+    "categories": {
+      "auth": {
+        "foodapp45bb914dc": {}
+      },
+      "api": {
+        "foodapp4": {}
+      },
+      "storage": {
+        "imagestorage": {}
+      }
     }
   }
 }
