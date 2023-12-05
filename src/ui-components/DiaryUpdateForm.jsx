@@ -9,11 +9,13 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { createNote } from "../graphql/mutations";
+import { getDiary } from "../graphql/queries";
+import { updateDiary } from "../graphql/mutations";
 const client = generateClient();
-export default function NoteCreateForm(props) {
+export default function DiaryUpdateForm(props) {
   const {
-    clearOnSuccess = true,
+    id: idProp,
+    diary: diaryModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -24,21 +26,48 @@ export default function NoteCreateForm(props) {
   } = props;
   const initialValues = {
     name: "",
+    image: "",
     description: "",
+    author: "",
   };
   const [name, setName] = React.useState(initialValues.name);
+  const [image, setImage] = React.useState(initialValues.image);
   const [description, setDescription] = React.useState(
     initialValues.description
   );
+  const [author, setAuthor] = React.useState(initialValues.author);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setName(initialValues.name);
-    setDescription(initialValues.description);
+    const cleanValues = diaryRecord
+      ? { ...initialValues, ...diaryRecord }
+      : initialValues;
+    setName(cleanValues.name);
+    setImage(cleanValues.image);
+    setDescription(cleanValues.description);
+    setAuthor(cleanValues.author);
     setErrors({});
   };
+  const [diaryRecord, setDiaryRecord] = React.useState(diaryModelProp);
+  React.useEffect(() => {
+    const queryData = async () => {
+      const record = idProp
+        ? (
+            await client.graphql({
+              query: getDiary.replaceAll("__typename", ""),
+              variables: { id: idProp },
+            })
+          )?.data?.getDiary
+        : diaryModelProp;
+      setDiaryRecord(record);
+    };
+    queryData();
+  }, [idProp, diaryModelProp]);
+  React.useEffect(resetStateValues, [diaryRecord]);
   const validations = {
-    name: [{ type: "Required" }],
+    name: [],
+    image: [],
     description: [],
+    author: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -66,8 +95,10 @@ export default function NoteCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name,
-          description,
+          name: name ?? null,
+          image: image ?? null,
+          description: description ?? null,
+          author: author ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -98,18 +129,16 @@ export default function NoteCreateForm(props) {
             }
           });
           await client.graphql({
-            query: createNote.replaceAll("__typename", ""),
+            query: updateDiary.replaceAll("__typename", ""),
             variables: {
               input: {
+                id: diaryRecord.id,
                 ...modelFields,
               },
             },
           });
           if (onSuccess) {
             onSuccess(modelFields);
-          }
-          if (clearOnSuccess) {
-            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -118,12 +147,12 @@ export default function NoteCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "NoteCreateForm")}
+      {...getOverrideProps(overrides, "DiaryUpdateForm")}
       {...rest}
     >
       <TextField
         label="Name"
-        isRequired={true}
+        isRequired={false}
         isReadOnly={false}
         value={name}
         onChange={(e) => {
@@ -131,7 +160,9 @@ export default function NoteCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name: value,
+              image,
               description,
+              author,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -147,6 +178,33 @@ export default function NoteCreateForm(props) {
         {...getOverrideProps(overrides, "name")}
       ></TextField>
       <TextField
+        label="Image"
+        isRequired={false}
+        isReadOnly={false}
+        value={image}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              image: value,
+              description,
+              author,
+            };
+            const result = onChange(modelFields);
+            value = result?.image ?? value;
+          }
+          if (errors.image?.hasError) {
+            runValidationTasks("image", value);
+          }
+          setImage(value);
+        }}
+        onBlur={() => runValidationTasks("image", image)}
+        errorMessage={errors.image?.errorMessage}
+        hasError={errors.image?.hasError}
+        {...getOverrideProps(overrides, "image")}
+      ></TextField>
+      <TextField
         label="Description"
         isRequired={false}
         isReadOnly={false}
@@ -156,7 +214,9 @@ export default function NoteCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              image,
               description: value,
+              author,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -171,18 +231,46 @@ export default function NoteCreateForm(props) {
         hasError={errors.description?.hasError}
         {...getOverrideProps(overrides, "description")}
       ></TextField>
+      <TextField
+        label="Author"
+        isRequired={false}
+        isReadOnly={false}
+        value={author}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              image,
+              description,
+              author: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.author ?? value;
+          }
+          if (errors.author?.hasError) {
+            runValidationTasks("author", value);
+          }
+          setAuthor(value);
+        }}
+        onBlur={() => runValidationTasks("author", author)}
+        errorMessage={errors.author?.errorMessage}
+        hasError={errors.author?.hasError}
+        {...getOverrideProps(overrides, "author")}
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Clear"
+          children="Reset"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          {...getOverrideProps(overrides, "ClearButton")}
+          isDisabled={!(idProp || diaryModelProp)}
+          {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -192,7 +280,10 @@ export default function NoteCreateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={Object.values(errors).some((e) => e?.hasError)}
+            isDisabled={
+              !(idProp || diaryModelProp) ||
+              Object.values(errors).some((e) => e?.hasError)
+            }
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

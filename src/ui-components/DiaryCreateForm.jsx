@@ -9,9 +9,9 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { createNote } from "../graphql/mutations";
+import { createDiary } from "../graphql/mutations";
 const client = generateClient();
-export default function NoteCreateForm(props) {
+export default function DiaryCreateForm(props) {
   const {
     clearOnSuccess = true,
     onSuccess,
@@ -24,21 +24,29 @@ export default function NoteCreateForm(props) {
   } = props;
   const initialValues = {
     name: "",
+    image: "",
     description: "",
+    author: "",
   };
   const [name, setName] = React.useState(initialValues.name);
+  const [image, setImage] = React.useState(initialValues.image);
   const [description, setDescription] = React.useState(
     initialValues.description
   );
+  const [author, setAuthor] = React.useState(initialValues.author);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setName(initialValues.name);
+    setImage(initialValues.image);
     setDescription(initialValues.description);
+    setAuthor(initialValues.author);
     setErrors({});
   };
   const validations = {
-    name: [{ type: "Required" }],
+    name: [],
+    image: [],
     description: [],
+    author: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -67,7 +75,9 @@ export default function NoteCreateForm(props) {
         event.preventDefault();
         let modelFields = {
           name,
+          image,
           description,
+          author,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -98,7 +108,7 @@ export default function NoteCreateForm(props) {
             }
           });
           await client.graphql({
-            query: createNote.replaceAll("__typename", ""),
+            query: createDiary.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,
@@ -118,12 +128,12 @@ export default function NoteCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "NoteCreateForm")}
+      {...getOverrideProps(overrides, "DiaryCreateForm")}
       {...rest}
     >
       <TextField
         label="Name"
-        isRequired={true}
+        isRequired={false}
         isReadOnly={false}
         value={name}
         onChange={(e) => {
@@ -131,7 +141,9 @@ export default function NoteCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name: value,
+              image,
               description,
+              author,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -147,6 +159,33 @@ export default function NoteCreateForm(props) {
         {...getOverrideProps(overrides, "name")}
       ></TextField>
       <TextField
+        label="Image"
+        isRequired={false}
+        isReadOnly={false}
+        value={image}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              image: value,
+              description,
+              author,
+            };
+            const result = onChange(modelFields);
+            value = result?.image ?? value;
+          }
+          if (errors.image?.hasError) {
+            runValidationTasks("image", value);
+          }
+          setImage(value);
+        }}
+        onBlur={() => runValidationTasks("image", image)}
+        errorMessage={errors.image?.errorMessage}
+        hasError={errors.image?.hasError}
+        {...getOverrideProps(overrides, "image")}
+      ></TextField>
+      <TextField
         label="Description"
         isRequired={false}
         isReadOnly={false}
@@ -156,7 +195,9 @@ export default function NoteCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              image,
               description: value,
+              author,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -170,6 +211,33 @@ export default function NoteCreateForm(props) {
         errorMessage={errors.description?.errorMessage}
         hasError={errors.description?.hasError}
         {...getOverrideProps(overrides, "description")}
+      ></TextField>
+      <TextField
+        label="Author"
+        isRequired={false}
+        isReadOnly={false}
+        value={author}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              image,
+              description,
+              author: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.author ?? value;
+          }
+          if (errors.author?.hasError) {
+            runValidationTasks("author", value);
+          }
+          setAuthor(value);
+        }}
+        onBlur={() => runValidationTasks("author", author)}
+        errorMessage={errors.author?.errorMessage}
+        hasError={errors.author?.hasError}
+        {...getOverrideProps(overrides, "author")}
       ></TextField>
       <Flex
         justifyContent="space-between"
