@@ -49,3 +49,55 @@ export const deleteNote = /* GraphQL */ `
     }
   }
 `;
+
+export const createDiary = /* GraphQL */ `
+  mutation CreateDiary(
+    $input: CreateDiaryInput!
+    $condition: ModelDiaryConditionInput
+  ) {
+    createNote(input: $input, condition: $condition) {
+      id
+      name
+      image
+      description
+      author
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateDiary = /* GraphQL */ `
+  mutation UpdateDiary(
+    $input: UpdateDiaryInput!
+    $condition: ModelDiaryConditionInput
+  ) {
+    updateNote(input: $input, condition: $condition) {
+      id
+      name
+      image
+      description
+      author
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteDiary = /* GraphQL */ `
+  mutation DeleteNote(
+    $input: DeleteNoteInput!
+    $condition: ModelNoteConditionInput
+  ) {
+    deleteNote(input: $input, condition: $condition) {
+      id
+      name
+      image
+      description
+      author
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;

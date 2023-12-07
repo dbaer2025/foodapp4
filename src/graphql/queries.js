@@ -35,3 +35,40 @@ export const listNotes = /* GraphQL */ `
     }
   }
 `;
+
+export const getDiary = /* GraphQL */ `
+  query GetDiary($id: ID!) {
+    getNote(id: $id) {
+      id
+      name
+      image
+      description
+      author
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listDiaries = /* GraphQL */ `
+  query ListDiaries(
+    $filter: ModelDiaryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listNotes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        image
+        description
+        author
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
