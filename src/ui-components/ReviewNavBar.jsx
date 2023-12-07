@@ -10,7 +10,7 @@ import { getOverrideProps, useNavigateAction } from "./utils";
 import { Button, Flex, Text } from "@aws-amplify/ui-react";
 export default function ReviewNavBar(props) {
   const { overrides, ...rest } = props;
-  const buttonOnClick = useNavigateAction({ type: "url", url: "/create" });
+  const buttonOnClick = useNavigateAction({ type: "url", url: "/new" });
   return (
     <Flex
       gap="20px"
@@ -99,9 +99,9 @@ export default function ReviewNavBar(props) {
       <Button
         width="unset"
         height="unset"
-        border="4px SOLID rgba(0,0,0,1)"
+        border="5px SOLID rgba(13,26,38,1)"
         borderRadius="4px"
-        padding="4px 12px 4px 12px"
+        padding="3px 11px 3px 11px"
         shrink="0"
         size="default"
         isDisabled={false}

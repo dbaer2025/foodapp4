@@ -6,17 +6,49 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { getOverrideProps } from "./utils";
+import { getOverrideProps, useAuth, useNavigateAction } from "./utils";
+import { useState } from "react";
+import { generateClient } from "aws-amplify/api";
+import { createDiary } from "../graphql/mutations";
 import {
   Button,
+  Divider,
   Flex,
   Icon,
   Text,
   TextField,
   View,
 } from "@aws-amplify/ui-react";
+const client = generateClient();
 export default function UINewReview(props) {
-  const { overrides, ...rest } = props;
+  const { d, overrides, ...rest } = props;
+  const authAttributes = useAuth().user?.attributes ?? {};
+  const [
+    textFieldFourZeroSevenFiveFourOneFiveValue,
+    setTextFieldFourZeroSevenFiveFourOneFiveValue,
+  ] = useState("");
+  const [
+    textFieldFourZeroSevenFiveFourThreeSixValue,
+    setTextFieldFourZeroSevenFiveFourThreeSixValue,
+  ] = useState("");
+  const [
+    textFieldFourZeroSevenFiveFourFourThreeValue,
+    setTextFieldFourZeroSevenFiveFourFourThreeValue,
+  ] = useState("");
+  const buttonOnClick = async () => {
+    await client.graphql({
+      query: createDiary.replaceAll("__typename", ""),
+      variables: {
+        input: {
+          name: textFieldFourZeroSevenFiveFourOneFiveValue,
+          image: textFieldFourZeroSevenFiveFourThreeSixValue,
+          description: textFieldFourZeroSevenFiveFourFourThreeValue,
+          author: authAttributes["email"],
+        },
+      },
+    });
+  };
+  const buttonOnMouseOut = useNavigateAction({ type: "url", url: "/" });
   return (
     <Flex
       gap="16px"
@@ -115,11 +147,15 @@ export default function UINewReview(props) {
             {...getOverrideProps(overrides, "Create Review")}
           ></Text>
         </Flex>
-        <View
+        <Divider
           width="unset"
           height="1px"
-          {...getOverrideProps(overrides, "Divider4132346")}
-        ></View>
+          shrink="0"
+          alignSelf="stretch"
+          size="small"
+          orientation="horizontal"
+          {...getOverrideProps(overrides, "Divider4075334")}
+        ></Divider>
         <Flex
           gap="16px"
           direction="column"
@@ -131,19 +167,23 @@ export default function UINewReview(props) {
           alignSelf="stretch"
           position="relative"
           padding="0px 0px 0px 0px"
-          {...getOverrideProps(overrides, "Forms4132350")}
+          {...getOverrideProps(overrides, "Forms")}
         >
           <TextField
             width="272px"
             height="unset"
-            label="Name Restaurant"
+            label="Name of Restaurant"
             placeholder="Sage Dining"
             shrink="0"
             size="default"
             isDisabled={false}
             labelHidden={false}
             variation="default"
-            {...getOverrideProps(overrides, "TextField41321045")}
+            value={textFieldFourZeroSevenFiveFourOneFiveValue}
+            onChange={(event) => {
+              setTextFieldFourZeroSevenFiveFourOneFiveValue(event.target.value);
+            }}
+            {...getOverrideProps(overrides, "TextField4075415")}
           ></TextField>
           <TextField
             width="272px"
@@ -155,7 +195,13 @@ export default function UINewReview(props) {
             isDisabled={false}
             labelHidden={false}
             variation="default"
-            {...getOverrideProps(overrides, "TextField41321052")}
+            value={textFieldFourZeroSevenFiveFourThreeSixValue}
+            onChange={(event) => {
+              setTextFieldFourZeroSevenFiveFourThreeSixValue(
+                event.target.value
+              );
+            }}
+            {...getOverrideProps(overrides, "TextField4075436")}
           ></TextField>
           <TextField
             width="272px"
@@ -167,34 +213,52 @@ export default function UINewReview(props) {
             isDisabled={false}
             labelHidden={false}
             variation="default"
-            {...getOverrideProps(overrides, "TextField41321059")}
+            value={textFieldFourZeroSevenFiveFourFourThreeValue}
+            onChange={(event) => {
+              setTextFieldFourZeroSevenFiveFourFourThreeValue(
+                event.target.value
+              );
+            }}
+            {...getOverrideProps(overrides, "TextField4075443")}
           ></TextField>
         </Flex>
-        <View
+        <Divider
           width="unset"
           height="1px"
-          {...getOverrideProps(overrides, "Divider4132354")}
-        ></View>
+          shrink="0"
+          alignSelf="stretch"
+          size="small"
+          orientation="horizontal"
+          {...getOverrideProps(overrides, "Divider4075339")}
+        ></Divider>
         <Flex
-          gap="16px"
+          gap="10px"
           direction="column"
           width="272px"
           height="unset"
-          justifyContent="flex-start"
+          justifyContent="center"
           alignItems="center"
+          overflow="hidden"
           shrink="0"
           position="relative"
-          padding="0px 0px 0px 0px"
-          {...getOverrideProps(overrides, "Forms4132355")}
+          padding="13px 46px 13px 46px"
+          {...getOverrideProps(overrides, "Frame 322")}
         >
           <Button
-            width="140px"
-            height="40px"
+            width="142px"
+            height="unset"
             shrink="0"
+            backgroundColor="rgba(67,168,84,1)"
             size="default"
             isDisabled={false}
-            variation="primary"
+            variation="default"
             children="Create"
+            onClick={() => {
+              buttonOnClick();
+            }}
+            onMouseOut={() => {
+              buttonOnMouseOut();
+            }}
             {...getOverrideProps(overrides, "Button")}
           ></Button>
         </Flex>

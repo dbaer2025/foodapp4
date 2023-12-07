@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { ButtonProps, FlexProps, IconProps, TextFieldProps, TextProps, ViewProps } from "@aws-amplify/ui-react";
+import { ButtonProps, DividerProps, FlexProps, IconProps, TextFieldProps, TextProps, ViewProps } from "@aws-amplify/ui-react";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -24,15 +24,15 @@ export declare type UIEditReviewOverridesProps = {
     Icon?: PrimitiveOverrideProps<ViewProps>;
     Vector?: PrimitiveOverrideProps<IconProps>;
     "Edit Review"?: PrimitiveOverrideProps<TextProps>;
-    Divider4132431?: PrimitiveOverrideProps<ViewProps>;
-    Forms4132435?: PrimitiveOverrideProps<FlexProps>;
-    TextField41321066?: PrimitiveOverrideProps<TextFieldProps>;
-    TextField41321073?: PrimitiveOverrideProps<TextFieldProps>;
-    TextField41321087?: PrimitiveOverrideProps<TextFieldProps>;
-    Divider4132439?: PrimitiveOverrideProps<ViewProps>;
-    Forms4132440?: PrimitiveOverrideProps<FlexProps>;
-    Button4132441?: PrimitiveOverrideProps<ButtonProps>;
-    Button4132442?: PrimitiveOverrideProps<ButtonProps>;
+    Divider4075319?: PrimitiveOverrideProps<DividerProps>;
+    Forms?: PrimitiveOverrideProps<FlexProps>;
+    TextField4075450?: PrimitiveOverrideProps<TextFieldProps>;
+    TextField4075471?: PrimitiveOverrideProps<TextFieldProps>;
+    TextField4075478?: PrimitiveOverrideProps<TextFieldProps>;
+    Divider4075324?: PrimitiveOverrideProps<DividerProps>;
+    "Frame 322"?: PrimitiveOverrideProps<FlexProps>;
+    Button4075574?: PrimitiveOverrideProps<ButtonProps>;
+    Button4075578?: PrimitiveOverrideProps<ButtonProps>;
 } & EscapeHatchProps;
 export declare type UIEditReviewProps = React.PropsWithChildren<Partial<FlexProps> & {
     overrides?: UIEditReviewOverridesProps | undefined | null;

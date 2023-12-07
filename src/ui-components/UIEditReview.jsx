@@ -9,6 +9,7 @@ import * as React from "react";
 import { getOverrideProps } from "./utils";
 import {
   Button,
+  Divider,
   Flex,
   Icon,
   Text,
@@ -115,11 +116,15 @@ export default function UIEditReview(props) {
             {...getOverrideProps(overrides, "Edit Review")}
           ></Text>
         </Flex>
-        <View
+        <Divider
           width="unset"
           height="1px"
-          {...getOverrideProps(overrides, "Divider4132431")}
-        ></View>
+          shrink="0"
+          alignSelf="stretch"
+          size="small"
+          orientation="horizontal"
+          {...getOverrideProps(overrides, "Divider4075319")}
+        ></Divider>
         <Flex
           gap="16px"
           direction="column"
@@ -131,7 +136,7 @@ export default function UIEditReview(props) {
           alignSelf="stretch"
           position="relative"
           padding="0px 0px 0px 0px"
-          {...getOverrideProps(overrides, "Forms4132435")}
+          {...getOverrideProps(overrides, "Forms")}
         >
           <TextField
             width="272px"
@@ -143,7 +148,7 @@ export default function UIEditReview(props) {
             isDisabled={false}
             labelHidden={false}
             variation="default"
-            {...getOverrideProps(overrides, "TextField41321066")}
+            {...getOverrideProps(overrides, "TextField4075450")}
           ></TextField>
           <TextField
             width="272px"
@@ -155,7 +160,7 @@ export default function UIEditReview(props) {
             isDisabled={false}
             labelHidden={false}
             variation="default"
-            {...getOverrideProps(overrides, "TextField41321073")}
+            {...getOverrideProps(overrides, "TextField4075471")}
           ></TextField>
           <TextField
             width="272px"
@@ -167,48 +172,53 @@ export default function UIEditReview(props) {
             isDisabled={false}
             labelHidden={false}
             variation="default"
-            {...getOverrideProps(overrides, "TextField41321087")}
+            {...getOverrideProps(overrides, "TextField4075478")}
           ></TextField>
         </Flex>
-        <View
+        <Divider
           width="unset"
           height="1px"
-          {...getOverrideProps(overrides, "Divider4132439")}
-        ></View>
+          shrink="0"
+          alignSelf="stretch"
+          size="small"
+          orientation="horizontal"
+          {...getOverrideProps(overrides, "Divider4075324")}
+        ></Divider>
         <Flex
-          gap="16px"
+          gap="25px"
           direction="row"
-          width="272px"
+          width="unset"
           height="unset"
           justifyContent="center"
-          alignItems="flex-start"
+          alignItems="center"
+          overflow="hidden"
           shrink="0"
           position="relative"
-          padding="0px 0px 0px 0px"
-          {...getOverrideProps(overrides, "Forms4132440")}
+          padding="13px 39px 13px 39px"
+          {...getOverrideProps(overrides, "Frame 322")}
         >
           <Button
-            width="100px"
+            width="90px"
             height="unset"
-            alignItems="flex-start"
+            borderRadius="4px"
             shrink="0"
+            backgroundColor="rgba(67,168,84,1)"
             size="default"
             isDisabled={false}
-            variation="primary"
+            variation="default"
             children="Save"
-            {...getOverrideProps(overrides, "Button4132441")}
+            {...getOverrideProps(overrides, "Button4075574")}
           ></Button>
           <Button
-            width="100px"
+            width="92px"
             height="unset"
-            alignItems="flex-start"
             shrink="0"
-            backgroundColor="rgba(149,4,4,1)"
+            backgroundColor="rgba(191,64,64,1)"
             size="default"
             isDisabled={false}
-            variation="primary"
+            variation="default"
             children="Delete"
-            {...getOverrideProps(overrides, "Button4132442")}
+            {...getOverrideProps(overrides, "Button4075578")}
           ></Button>
         </Flex>
       </Flex>
