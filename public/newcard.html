@@ -1,4 +1,4 @@
-/***************************************************************************
+<!-- /***************************************************************************
  * The contents of this file were generated with Amplify Studio.           *
  * Please refrain from making any modifications to this file.              *
  * Any changes to this file will be overwritten when running amplify pull. *
@@ -6,10 +6,12 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { getOverrideProps, useAuth, useNavigateAction } from "./utils";
+import { getOverrideProps, useAuth, useNavigateAction, processFile  } from "./utils";
 import { useState } from "react";
 import { generateClient } from "aws-amplify/api";
-import { deleteDiary, updateDiary } from "../graphql/mutations";
+import { Field } from "@aws-amplify/ui-react/internal";
+import { StorageManager } from "@aws-amplify/ui-react-storage";
+import { createDiary } from "../graphql/mutations";
 import {
   Button,
   Divider,
@@ -20,53 +22,35 @@ import {
   View,
 } from "@aws-amplify/ui-react";
 const client = generateClient();
-export default function UIEditReview(props) {
-  const { di, overrides, ...rest } = props;
+export default function UINewReview(props) {
+  const { d, overrides, ...rest } = props;
   const authAttributes = useAuth().user?.attributes ?? {};
   const [
-    textFieldFourZeroSevenFiveFourFiveZeroValue,
-    setTextFieldFourZeroSevenFiveFourFiveZeroValue,
+    textFieldFourZeroSevenFiveFourOneFiveValue,
+    setTextFieldFourZeroSevenFiveFourOneFiveValue,
   ] = useState("");
   const [
-    textFieldFourZeroSevenFiveFourSevenOneValue,
-    setTextFieldFourZeroSevenFiveFourSevenOneValue,
+    textFieldFourZeroSevenFiveFourThreeSixValue,
+    setTextFieldFourZeroSevenFiveFourThreeSixValue,
   ] = useState("");
   const [
-    textFieldFourZeroSevenFiveFourSevenEightValue,
-    setTextFieldFourZeroSevenFiveFourSevenEightValue,
+    textFieldFourZeroSevenFiveFourFourThreeValue,
+    setTextFieldFourZeroSevenFiveFourFourThreeValue,
   ] = useState("");
-  const buttonFourZeroSevenFiveFiveSevenFourOnClick = async () => {
+  const buttonOnClick = async () => {
     await client.graphql({
-      query: updateDiary.replaceAll("__typename", ""),
+      query: createDiary.replaceAll("__typename", ""),
       variables: {
         input: {
-          name: textFieldFourZeroSevenFiveFourFiveZeroValue,
-          image: textFieldFourZeroSevenFiveFourSevenOneValue,
-          description: textFieldFourZeroSevenFiveFourSevenEightValue,
+          name: textFieldFourZeroSevenFiveFourOneFiveValue,
+          image: textFieldFourZeroSevenFiveFourThreeSixValue,
+          description: textFieldFourZeroSevenFiveFourFourThreeValue,
           author: authAttributes["email"],
-          id: di?.id,
         },
       },
     });
   };
-  const buttonFourZeroSevenFiveFiveSevenFourOnMouseOut = useNavigateAction({
-    type: "url",
-    url: "/",
-  });
-  const buttonFourOneZeroFourOneThreeEightOnClick = async () => {
-    await client.graphql({
-      query: deleteDiary.replaceAll("__typename", ""),
-      variables: {
-        input: {
-          id: di?.id,
-        },
-      },
-    });
-  };
-  const buttonFourOneZeroFourOneThreeEightOnMouseOut = useNavigateAction({
-    type: "url",
-    url: "/",
-  });
+  const buttonOnMouseOut = useNavigateAction({ type: "url", url: "/" });
   return (
     <Flex
       gap="16px"
@@ -78,7 +62,7 @@ export default function UIEditReview(props) {
       position="relative"
       padding="0px 0px 0px 0px"
       backgroundColor="rgba(255,255,255,1)"
-      {...getOverrideProps(overrides, "UIEditReview")}
+      {...getOverrideProps(overrides, "UINewReview")}
       {...rest}
     >
       <Flex
@@ -161,8 +145,8 @@ export default function UIEditReview(props) {
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
-            children="Edit Review"
-            {...getOverrideProps(overrides, "Edit Review")}
+            children="Create Review"
+            {...getOverrideProps(overrides, "Create Review")}
           ></Text>
         </Flex>
         <Divider
@@ -172,7 +156,7 @@ export default function UIEditReview(props) {
           alignSelf="stretch"
           size="small"
           orientation="horizontal"
-          {...getOverrideProps(overrides, "Divider4075319")}
+          {...getOverrideProps(overrides, "Divider4075334")}
         ></Divider>
         <Flex
           gap="16px"
@@ -197,32 +181,34 @@ export default function UIEditReview(props) {
             isDisabled={false}
             labelHidden={false}
             variation="default"
-            value={textFieldFourZeroSevenFiveFourFiveZeroValue}
+            value={textFieldFourZeroSevenFiveFourOneFiveValue}
             onChange={(event) => {
-              setTextFieldFourZeroSevenFiveFourFiveZeroValue(
-                event.target.value
-              );
+              setTextFieldFourZeroSevenFiveFourOneFiveValue(event.target.value);
             }}
-            {...getOverrideProps(overrides, "TextField4075450")}
+            {...getOverrideProps(overrides, "TextField4075415")}
           ></TextField>
-          <TextField
-            width="272px"
-            height="unset"
-            label="Image Link"
-            placeholder="http://www.example.com"
-            shrink="0"
-            size="default"
-            isDisabled={false}
-            labelHidden={false}
-            variation="default"
-            value={textFieldFourZeroSevenFiveFourSevenOneValue}
-            onChange={(event) => {
-              setTextFieldFourZeroSevenFiveFourSevenOneValue(
-                event.target.value
-              );
-            }}
-            {...getOverrideProps(overrides, "TextField4075471")}
-          ></TextField>
+
+<Field
+
+label={"Image"}
+isRequired={false}
+isReadOnly={false}
+>
+<StorageManager
+  onUploadSuccess={({ key }) => {
+    setImageName(
+      key
+    );
+  }}
+  processFile={processFile}
+  accessLevel={"public"}
+  acceptedFileTypes={[]}
+  isResumable={false}
+  showThumbnails={true}
+  maxFileCount={1}
+  {...getOverrideProps(overrides, "image")}
+></StorageManager>
+</Field>
           <TextField
             width="272px"
             height="unset"
@@ -233,13 +219,13 @@ export default function UIEditReview(props) {
             isDisabled={false}
             labelHidden={false}
             variation="default"
-            value={textFieldFourZeroSevenFiveFourSevenEightValue}
+            value={textFieldFourZeroSevenFiveFourFourThreeValue}
             onChange={(event) => {
-              setTextFieldFourZeroSevenFiveFourSevenEightValue(
+              setTextFieldFourZeroSevenFiveFourFourThreeValue(
                 event.target.value
               );
             }}
-            {...getOverrideProps(overrides, "TextField4075478")}
+            {...getOverrideProps(overrides, "TextField4075443")}
           ></TextField>
         </Flex>
         <Divider
@@ -249,11 +235,11 @@ export default function UIEditReview(props) {
           alignSelf="stretch"
           size="small"
           orientation="horizontal"
-          {...getOverrideProps(overrides, "Divider4075324")}
+          {...getOverrideProps(overrides, "Divider4075339")}
         ></Divider>
         <Flex
-          gap="25px"
-          direction="row"
+          gap="10px"
+          direction="column"
           width="272px"
           height="unset"
           justifyContent="center"
@@ -261,47 +247,28 @@ export default function UIEditReview(props) {
           overflow="hidden"
           shrink="0"
           position="relative"
-          padding="13px 39px 13px 39px"
+          padding="13px 46px 13px 46px"
           {...getOverrideProps(overrides, "Frame 322")}
         >
           <Button
-            width="90px"
+            width="142px"
             height="unset"
-            borderRadius="4px"
             shrink="0"
             backgroundColor="rgba(67,168,84,1)"
             size="default"
             isDisabled={false}
             variation="default"
-            children="Save"
+            children="Create"
             onClick={() => {
-              buttonFourZeroSevenFiveFiveSevenFourOnClick();
+              buttonOnClick();
             }}
             onMouseOut={() => {
-              buttonFourZeroSevenFiveFiveSevenFourOnMouseOut();
+              buttonOnMouseOut();
             }}
-            {...getOverrideProps(overrides, "Button4075574")}
-          ></Button>
-          <Button
-            width="90px"
-            height="unset"
-            borderRadius="4px"
-            shrink="0"
-            backgroundColor="rgba(191,64,64,1)"
-            size="default"
-            isDisabled={false}
-            variation="default"
-            children="Delete"
-            onClick={() => {
-              buttonFourOneZeroFourOneThreeEightOnClick();
-            }}
-            onMouseOut={() => {
-              buttonFourOneZeroFourOneThreeEightOnMouseOut();
-            }}
-            {...getOverrideProps(overrides, "Button4104138")}
+            {...getOverrideProps(overrides, "Button")}
           ></Button>
         </Flex>
       </Flex>
     </Flex>
   );
-}
+} -->

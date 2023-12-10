@@ -27,7 +27,7 @@
 import React, { Component } from 'react'
 import './App.css';
 import { withAuthenticator } from '@aws-amplify/ui-react';
-import {NoteNavBar, NoteCollection, UINewNote, ReviewNavBar, ReviewCardCollection, UINewReview, DiaryCreateForm} from "./ui-components";
+import {NoteNavBar, NoteCollection, UIEditReview, ReviewNavBar, ReviewCardCollection, UINewReview, DiaryCreateForm} from "./ui-components";
 import { Routes, Route } from 'react-router-dom';
 class App extends Component {
   render() {
@@ -36,6 +36,7 @@ class App extends Component {
       <Routes>
         <Route exact path='/' element={<div><ReviewNavBar/><ReviewCardCollection/></div>}/>
         <Route exact path='/new' element={<UINewReview/>} />
+        <Route exact path='/edit' element={<UIEditReview/>} />
         <Route exact path='/create' element={<DiaryCreateForm/>} />
       </Routes>
     </header></div>

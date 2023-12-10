@@ -1,61 +1,12 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createNote = /* GraphQL */ `
-  mutation CreateNote(
-    $input: CreateNoteInput!
-    $condition: ModelNoteConditionInput
-  ) {
-    createNote(input: $input, condition: $condition) {
-      id
-      name
-      description
-      image
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const updateNote = /* GraphQL */ `
-  mutation UpdateNote(
-    $input: UpdateNoteInput!
-    $condition: ModelNoteConditionInput
-  ) {
-    updateNote(input: $input, condition: $condition) {
-      id
-      name
-      description
-      image
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const deleteNote = /* GraphQL */ `
-  mutation DeleteNote(
-    $input: DeleteNoteInput!
-    $condition: ModelNoteConditionInput
-  ) {
-    deleteNote(input: $input, condition: $condition) {
-      id
-      name
-      description
-      image
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-
 export const createDiary = /* GraphQL */ `
   mutation CreateDiary(
     $input: CreateDiaryInput!
     $condition: ModelDiaryConditionInput
   ) {
-    createNote(input: $input, condition: $condition) {
+    createDiary(input: $input, condition: $condition) {
       id
       name
       image
@@ -72,7 +23,7 @@ export const updateDiary = /* GraphQL */ `
     $input: UpdateDiaryInput!
     $condition: ModelDiaryConditionInput
   ) {
-    updateNote(input: $input, condition: $condition) {
+    updateDiary(input: $input, condition: $condition) {
       id
       name
       image
@@ -85,11 +36,11 @@ export const updateDiary = /* GraphQL */ `
   }
 `;
 export const deleteDiary = /* GraphQL */ `
-  mutation DeleteNote(
-    $input: DeleteNoteInput!
-    $condition: ModelNoteConditionInput
+  mutation DeleteDiary(
+    $input: DeleteDiaryInput!
+    $condition: ModelDiaryConditionInput
   ) {
-    deleteNote(input: $input, condition: $condition) {
+    deleteDiary(input: $input, condition: $condition) {
       id
       name
       image

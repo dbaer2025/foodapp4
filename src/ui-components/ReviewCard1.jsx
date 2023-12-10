@@ -6,12 +6,10 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { getOverrideProps, useNavigateAction } from "./utils";
-import { Button, Flex, Image, Text, View } from "@aws-amplify/ui-react";
-import MyIcon from "./MyIcon";
-export default function ReviewCard(props) {
-  const { d, overrides, ...rest } = props;
-  const buttonOnClick = useNavigateAction({ type: "url", url: "/edit" });
+import { getOverrideProps } from "./utils";
+import { Flex, Image, Text } from "@aws-amplify/ui-react";
+export default function ReviewCard1(props) {
+  const { overrides, ...rest } = props;
   return (
     <Flex
       gap="0"
@@ -23,7 +21,7 @@ export default function ReviewCard(props) {
       position="relative"
       padding="0px 0px 0px 0px"
       backgroundColor="rgba(255,255,255,1)"
-      {...getOverrideProps(overrides, "ReviewCard")}
+      {...getOverrideProps(overrides, "ReviewCard1")}
       {...rest}
     >
       <Image
@@ -38,56 +36,10 @@ export default function ReviewCard(props) {
         position="relative"
         padding="0px 0px 0px 0px"
         objectFit="cover"
-        src={d?.image}
         {...getOverrideProps(overrides, "image")}
       ></Image>
-      <View
-        width="320px"
-        height="34px"
-        display="block"
-        gap="unset"
-        alignItems="unset"
-        justifyContent="unset"
-        overflow="hidden"
-        shrink="0"
-        position="relative"
-        padding="0px 0px 0px 0px"
-        backgroundColor="rgba(255,255,255,1)"
-        {...getOverrideProps(overrides, "Frame 324")}
-      >
-        <MyIcon
-          width="24px"
-          height="24px"
-          display="block"
-          gap="unset"
-          alignItems="unset"
-          justifyContent="unset"
-          overflow="hidden"
-          position="absolute"
-          top="5px"
-          left="9px"
-          padding="0px 0px 0px 0px"
-          type="edit"
-          {...getOverrideProps(overrides, "MyIcon")}
-        ></MyIcon>
-        <Button
-          width="42px"
-          height="34px"
-          position="absolute"
-          borderRadius="4px"
-          top="0px"
-          left="0px"
-          size="default"
-          isDisabled={false}
-          variation="default"
-          onClick={() => {
-            buttonOnClick();
-          }}
-          {...getOverrideProps(overrides, "Button")}
-        ></Button>
-      </View>
       <Flex
-        gap="0"
+        gap="16px"
         direction="column"
         width="unset"
         height="106px"
@@ -131,7 +83,7 @@ export default function ReviewCard(props) {
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
-            children={d?.name}
+            children="Name of Restaurant"
             {...getOverrideProps(overrides, "Name of Restaurant")}
           ></Text>
           <Text
@@ -154,7 +106,7 @@ export default function ReviewCard(props) {
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
-            children={d?.author}
+            children="Writer/Author"
             {...getOverrideProps(overrides, "Writer/Author")}
           ></Text>
           <Text
@@ -176,7 +128,7 @@ export default function ReviewCard(props) {
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
-            children={d?.description}
+            children="Description of Review"
             {...getOverrideProps(overrides, "Description of Review")}
           ></Text>
         </Flex>
